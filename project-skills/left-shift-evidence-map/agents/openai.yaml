@@ -1,0 +1,4 @@
+interface:
+  display_name: "质量左移证据链"
+  short_description: "把质量左移结论映射到真实评审证据"
+  default_prompt: "Use $left-shift-evidence-map to build an evidence map for a quality-left-shift claim."

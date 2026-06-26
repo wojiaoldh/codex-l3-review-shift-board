@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>评审虾质量左移指标看板</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111827'/%3E%3Cpath d='M10 8h12v16H10z' fill='none' stroke='%23fff' stroke-width='2'/%3E%3Cpath d='M13 13h6M13 17h6M13 21h4' stroke='%23fff' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img">
+              <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v13A2.5 2.5 0 0 1 17.5 21h-11A2.5 2.5 0 0 1 4 18.5v-13Z" />
+              <path d="M8 8h8M8 12h5M8 16h8" />
+            </svg>
+          </div>
+          <div>
+            <h1>评审虾质量左移指标看板</h1>
+            <p>6-7 月 OKR · 试点需求 · 证据链</p>
+          </div>
+        </div>
+        <div class="toolbar" role="toolbar" aria-label="看板操作">
+          <button class="icon-button" id="exportBtn" type="button" title="导出周同步">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" /></svg>
+          </button>
+          <button class="icon-button" id="resetBtn" type="button" title="恢复样例数据">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v6h6" /></svg>
+          </button>
+          <button class="primary-button" id="newRecordBtn" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+            新增记录
+          </button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <section class="metric-strip" aria-label="核心指标" id="metrics"></section>
+
+        <section class="board">
+          <aside class="sidebar" aria-label="筛选与项目 Skills">
+            <div class="filter-group">
+              <label for="searchInput">搜索</label>
+              <div class="field-with-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.3-4.3M10.8 18a7.2 7.2 0 1 1 0-14.4 7.2 7.2 0 0 1 0 14.4Z" /></svg>
+                <input id="searchInput" type="search" placeholder="需求、证据、负责人" />
+              </div>
+            </div>
+            <div class="filter-group">
+              <label>风险</label>
+              <div class="segmented" id="riskFilter" role="tablist" aria-label="风险筛选">
+                <button type="button" data-value="all" class="active">全部</button>
+                <button type="button" data-value="high">高</button>
+                <button type="button" data-value="medium">中</button>
+                <button type="button" data-value="low">低</button>
+              </div>
+            </div>
+            <div class="filter-group">
+              <label>阶段</label>
+              <select id="stageFilter">
+                <option value="all">全部阶段</option>
+                <option value="评审中">评审中</option>
+                <option value="已打回">已打回</option>
+                <option value="已通过">已通过</option>
+                <option value="待确认">待确认</option>
+              </select>
+            </div>
+            <div class="skill-panel">
+              <div class="section-title">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 7v10l8 4 8-4V7l-8-4Zm0 0v18M4 7l8 4 8-4" /></svg>
+                项目 Skills
+              </div>
+              <div id="skillList" class="skill-list"></div>
+            </div>
+          </aside>
+
+          <section class="record-list" aria-label="需求记录">
+            <div class="list-header">
+              <div>
+                <h2>试点需求记录</h2>
+                <span id="recordCount"></span>
+              </div>
+              <div class="view-tabs" role="tablist" aria-label="视图">
+                <button type="button" class="active" data-view="records">记录</button>
+                <button type="button" data-view="evidence">证据</button>
+              </div>
+            </div>
+            <div id="records" class="records"></div>
+          </section>
+
+          <aside class="detail-panel" aria-label="记录详情" id="detail"></aside>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="recordDialog">
+      <form method="dialog" id="recordForm" class="record-form">
+        <div class="dialog-header">
+          <h2>新增试点记录</h2>
+          <button class="icon-button" type="button" id="closeDialogBtn" title="关闭">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+          </button>
+        </div>
+        <div class="form-grid">
+          <label>
+            需求名称
+            <input name="title" required placeholder="例如：AI 讲解页改版评审" />
+          </label>
+          <label>
+            负责人
+            <input name="owner" required placeholder="例如：B 组 / 德华" />
+          </label>
+          <label>
+            阶段
+            <select name="stage">
+              <option>评审中</option>
+              <option>已打回</option>
+              <option>已通过</option>
+              <option>待确认</option>
+            </select>
+          </label>
+          <label>
+            风险
+            <select name="risk">
+              <option value="low">低</option>
+              <option value="medium">中</option>
+              <option value="high">高</option>
+            </select>
+          </label>
+          <label>
+            评审时长（分钟）
+            <input name="reviewMinutes" type="number" min="0" value="30" />
+          </label>
+          <label>
+            左移问题数
+            <input name="shiftedIssues" type="number" min="0" value="1" />
+          </label>
+        </div>
+        <div class="toggle-row">
+          <label><input name="aiUsed" type="checkbox" checked /> 使用 AI 报告</label>
+          <label><input name="aiAdopted" type="checkbox" checked /> AI 建议被采纳</label>
+          <label><input name="prdReturned" type="checkbox" /> PRD 打回</label>
+          <label><input name="deliveryPassed" type="checkbox" /> 交付评审通过</label>
+        </div>
+        <label>
+          证据
+          <textarea name="evidence" rows="3" placeholder="每行一条证据，例如：评审记录显示补充边界条件"></textarea>
+        </label>
+        <label>
+          人工确认点
+          <textarea name="humanConfirm" rows="2" placeholder="每行一条，例如：打回原因是否计入质量左移"></textarea>
+        </label>
+        <menu>
+          <button type="button" class="secondary-button" id="cancelBtn">取消</button>
+          <button type="submit" class="primary-button">保存记录</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="./app.js"></script>
+  </body>
+</html>

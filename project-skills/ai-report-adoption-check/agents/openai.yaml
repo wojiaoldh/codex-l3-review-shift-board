@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI 报告采纳检查"
+  short_description: "核验 AI 评审报告是否被真实采纳"
+  default_prompt: "Use $ai-report-adoption-check to verify whether an AI review report was adopted."

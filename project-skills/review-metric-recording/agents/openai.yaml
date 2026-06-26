@@ -1,0 +1,4 @@
+interface:
+  display_name: "评审指标记录"
+  short_description: "记录质量左移评审样本与证据链字段"
+  default_prompt: "Use $review-metric-recording to record one quality-left-shift review sample."
