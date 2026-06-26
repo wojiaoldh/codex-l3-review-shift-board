@@ -1,4 +1,4 @@
-# Codex 训练营 L3 优秀作业
+# Codex 训练营 L3 ｜评审虾质量左移指标看板
 
 ## 项目
 
@@ -9,7 +9,7 @@
 本地项目目录：
 
 ```text
-/Users/yangcong/Documents/我的空间/Codex训练营L3优秀作业
+/Users/yangcong/Documents/我的空间/Codex训练营L3_评审虾质量左移指标看板
 ```
 
 远程仓库地址：
