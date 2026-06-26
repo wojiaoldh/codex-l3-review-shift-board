@@ -4,18 +4,12 @@
 
 评审虾质量左移指标看板
 
-## 代码位置
-
-本地项目目录：
-
-```text
-/Users/yangcong/Documents/我的空间/Codex训练营L3_评审虾质量左移指标看板
-```
+## 代码仓库
 
 远程仓库地址：
 
 ```text
-https://github.com/wojiaoldh/codex-l3-review-shift-board.git
+https://github.com/wojiaoldh/codex-l3-review-shift-board
 ```
 
 ## 启动方式
@@ -23,6 +17,8 @@ https://github.com/wojiaoldh/codex-l3-review-shift-board.git
 在本目录执行：
 
 ```bash
+git clone https://github.com/wojiaoldh/codex-l3-review-shift-board.git
+cd codex-l3-review-shift-board
 cd app
 python3 -m http.server 4173
 ```
