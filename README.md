@@ -15,7 +15,7 @@
 远程仓库地址：
 
 ```text
-待创建后填写
+https://github.com/wojiaoldh/codex-l3-review-shift-board.git
 ```
 
 ## 启动方式
